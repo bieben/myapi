@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Translator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Sign Language Translator</h1>
+    <p>Enter English text to translate:</p>
+    
+    <input type="text" id="inputText" placeholder="Enter text" />
+    
+    <button onclick="submitText()">Translate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function submitText() {
+        const inputText = document.getElementById('inputText').value;
+
+        if (!inputText) {
+            document.getElementById('result').innerHTML = "Please enter some text.";
+            return;
+        }
+
+        fetch('http://localhost:3000/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ inputText: inputText }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                document.getElementById('result').innerHTML = `
+                    <strong>Original Text:</strong> ${data.originalText}<br/>
+                    <strong>Translated Text:</strong> ${data.translatedText}
+                `;
+            } else {
+                document.getElementById('result').innerHTML = "Translation failed.";
+            }
+        })
+        .catch((error) => {
+            document.getElementById('result').innerHTML = "An error occurred: " + error;
+        });
+    }
+</script>
+
+</body>
+</html>

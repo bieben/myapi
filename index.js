@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const app = express();
 
+const cors = require('cors');
+app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('combined')); // log details about each incoming request
 
