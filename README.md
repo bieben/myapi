@@ -1,6 +1,8 @@
 # My API
 A back end API service
 
+## Check Out: [MyAPI](https://bieben.github.io/myapi/)
+
 ## Initialization
 ```bash
 npm i
